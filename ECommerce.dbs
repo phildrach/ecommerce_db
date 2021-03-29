@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="ECommerce " id="Project_21e4" database="SqlServer" >
+	<schema name="ECommerce " >
+		<table name="CUSTOMER" prior="C" >
+			<column name="customerID" type="int" jt="4" mandatory="y" />
+			<column name="customerName" type="varchar" length="50" jt="12" />
+			<column name="phone" type="varchar" length="20" jt="12" />
+			<column name="email" type="varchar" length="50" jt="12" />
+			<column name="address" type="text" length="100" jt="-1" />
+			<index name="Pk_CUSTOMER_customerID" unique="PRIMARY_KEY" >
+				<column name="customerID" />
+			</index>
+		</table>
+		<table name="ORDERDETAILS" prior="Tbl" >
+			<column name="orderID" type="int" jt="4" mandatory="y" />
+			<column name="productID" type="int" jt="4" mandatory="y" />
+			<column name="quantity" type="int" jt="4" />
+			<column name="price" type="float" jt="8" />
+			<index name="Pk_ORDERDETAILS_productID" unique="UNIQUE_KEY" >
+				<column name="productID" />
+				<column name="orderID" />
+			</index>
+			<index name="Pk_ORDERDETAILS_orderID" unique="PRIMARY_KEY" >
+				<column name="orderID" />
+				<column name="productID" />
+			</index>
+			<fk name="fk_orderdetails_orders" to_schema="ECommerce " to_table="ORDERS" >
+				<fk_column name="orderID" pk="orderID" />
+			</fk>
+			<fk name="fk_orderdetails_product" to_schema="ECommerce " to_table="PRODUCT" >
+				<fk_column name="productID" pk="productID" />
+			</fk>
+		</table>
+		<table name="ORDERS" prior="O" >
+			<column name="orderID" type="int" jt="4" mandatory="y" />
+			<column name="orderDate" type="date" jt="91" />
+			<column name="estimateDelivery" type="date" jt="91" />
+			<column name="orderStatus" type="varchar" length="20" jt="12" />
+			<column name="customerID" type="int" jt="4" />
+			<index name="Pk_ORDERS_orderID" unique="PRIMARY_KEY" >
+				<column name="orderID" />
+			</index>
+			<fk name="fk_orders_orderdetails" to_schema="ECommerce " to_table="CUSTOMER" >
+				<fk_column name="customerID" pk="customerID" />
+			</fk>
+		</table>
+		<table name="PRODUCT" prior="Tbl" >
+			<column name="productID" type="int" jt="4" mandatory="y" />
+			<column name="productName" type="varchar" length="50" jt="12" />
+			<column name="category" type="varchar" length="50" jt="12" />
+			<column name="price" type="float" jt="8" />
+			<column name="shortDescription" type="text" jt="-1" />
+			<column name="rating" type="smallint" jt="5" />
+			<index name="Pk_PRODUCT_productID" unique="PRIMARY_KEY" >
+				<column name="productID" />
+			</index>
+		</table>
+		<table name="PRODUCTDETAILS" prior="Tbl" >
+			<column name="productID" type="int" jt="4" mandatory="y" />
+			<column name="longDescription" type="text" jt="-1" />
+			<column name="imageURL" type="varchar(max)" jt="12" />
+			<index name="Pk_PRODUCTDETAILS_productID" unique="PRIMARY_KEY" >
+				<column name="productID" />
+			</index>
+			<fk name="fk_productdetails_product" to_schema="ECommerce " to_table="PRODUCT" >
+				<fk_column name="productID" pk="productID" />
+			</fk>
+		</table>
+	</schema>
+	<layout name="Default Layout" id="Layout_8c1" show_column_type="y" show_relation="columns" >
+		<entity schema="ECommerce " name="CUSTOMER" color="C1D8EE" x="528" y="336" />
+		<entity schema="ECommerce " name="ORDERDETAILS" color="C1D8EE" x="400" y="80" />
+		<entity schema="ECommerce " name="ORDERS" color="C1D8EE" x="608" y="80" />
+		<entity schema="ECommerce " name="PRODUCT" color="C1D8EE" x="48" y="96" />
+		<entity schema="ECommerce " name="PRODUCTDETAILS" color="C1D8EE" x="64" y="320" />
+		<group name="Product" color="C4E0F9" >
+			<entity schema="ECommerce " name="PRODUCT" />
+			<entity schema="ECommerce " name="PRODUCTDETAILS" />
+		</group>
+		<group name="Orders" color="CCFFCC" >
+			<entity schema="ECommerce " name="ORDERS" />
+			<entity schema="ECommerce " name="ORDERDETAILS" />
+		</group>
+		<group name="Customer" color="FFCCCC" >
+			<entity schema="ECommerce " name="CUSTOMER" />
+		</group>
+	</layout>
+</project>
